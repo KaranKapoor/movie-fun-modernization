@@ -24,7 +24,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 @Repository
-public class AlbumsBean {
+public class AlbumsRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -42,6 +42,11 @@ public class AlbumsBean {
         CriteriaQuery<Album> cq = entityManager.getCriteriaBuilder().createQuery(Album.class);
         cq.select(cq.from(Album.class));
         return entityManager.createQuery(cq).getResultList();
+    }
+
+    public void deleteAlbumById(long albumId) {
+        Album album = entityManager.find(Album.class, albumId);
+        deleteAlbum(album);
     }
 
     @Transactional

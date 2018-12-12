@@ -1,0 +1,26 @@
+---
+memory: 1G
+instances: 1
+applications:
+- name: albums-service-micro
+  path: applications/albums-service/build/libs/albums-service-1.1.0-SNAPSHOT.jar
+  routes:
+  - route: albums-service-kk.apps.pikes.pal.pivotal.io
+  services:
+  - albums-database
+  - photo-storage
+- name: movie-service-micro
+  path: applications/movie-service/build/libs/movie-service-1.1.0-SNAPSHOT.jar
+  routes:
+  - route: movie-service-kk.apps.pikes.pal.pivotal.io
+  services:
+  - movies-database
+- name: movie-fun-app-micro
+  path: applications/movie-fun-app/build/libs/movie-fun-app-1.1.0-SNAPSHOT.war
+  routes:
+  - route: movie-fun-app-kk.apps.pikes.pal.pivotal.io
+  services:
+  - photo-storage
+  env:
+    ALBUMS_URL: http://albums-service-kk.apps.pikes.pal.pivotal.io/albums
+    MOVIES_URL: http://movie-service-kk.apps.pikes.pal.pivotal.io/movies
