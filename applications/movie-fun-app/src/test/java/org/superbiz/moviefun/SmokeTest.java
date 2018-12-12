@@ -1,16 +1,26 @@
 package org.superbiz.moviefun;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SmokeTest {
+
+    @Autowired
+    private TestRestTemplate restTemplate;
 
     @Test
     public void smokeTest() {
-        RestTemplate restTemplate = new RestTemplate();
+//        RestTemplate restTemplate = new RestTemplate();
 
         String homePage = restTemplate.getForObject(url("/"), String.class);
 
@@ -31,13 +41,6 @@ public class SmokeTest {
     }
 
     private String url(String path) {
-        String baseUrl = "http://localhost:8080/";
-        String envUrl = System.getenv("MOVIE_FUN_URL");
-
-        if (envUrl != null && !envUrl.isEmpty()) {
-            baseUrl = envUrl;
-        }
-
-        return baseUrl + path;
+        return path;
     }
 }
