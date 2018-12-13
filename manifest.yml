@@ -11,7 +11,7 @@ applications:
     - route: album-service-kotlin.apps.pikes.pal.pivotal.io
   services:
   - albums-database
-  - photo-bucket
+  - photo-storage
   env:
     GRANT_TYPE: client_credentials
 - name: movie-service
@@ -28,4 +28,4 @@ applications:
     - route: movie-fun-app-kotlin.apps.pikes.pal.pivotal.io
   services:
   - movie-fun-config
-  - photo-bucket
+  - photo-storage
