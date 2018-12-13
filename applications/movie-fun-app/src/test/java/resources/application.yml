@@ -20,3 +20,6 @@ movies:
 security:
   basic:
     enabled: false
+
+application:
+  oauth-enabled: false

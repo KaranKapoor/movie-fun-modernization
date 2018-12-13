@@ -1,6 +1,7 @@
 apply from: "../../java.gradle"
 
 apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
 
 group = "org.superbiz"
 version = "1.1.0-SNAPSHOT"
@@ -14,4 +15,13 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-data-jpa"
 
     compile "mysql:mysql-connector-java:$mysqlVersion"
+
+    compile "org.springframework.security.oauth:spring-security-oauth2:2.0.15.RELEASE"
+    compile "io.pivotal.spring.cloud:spring-cloud-sso-connector:1.1.0.RELEASE"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+    }
 }
