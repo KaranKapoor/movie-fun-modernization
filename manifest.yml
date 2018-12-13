@@ -19,7 +19,7 @@ applications:
   routes:
     - route: movie-service-kk.apps.pikes.pal.pivotal.io
   services:
-  - movie-database
+  - movies-database
   env:
     GRANT_TYPE: client_credentials
 - name: movie-fun-app
