@@ -48,7 +48,7 @@ public class AlbumsUpdater {
             return;
         }
 
-        List<Album> albumsToHave = CsvUtils.readFromCsv(objectReader, maybeBlob.get().inputStream);
+        List<Album> albumsToHave = CsvUtils.INSTANCE.readFromCsv(objectReader, maybeBlob.get().inputStream);
         List<Album> albumsWeHave = albumsRepository.getAlbums();
 
         createNewAlbums(albumsToHave, albumsWeHave);
