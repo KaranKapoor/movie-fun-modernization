@@ -1,5 +1,6 @@
 package org.superbiz.moviefun.albumsapi;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.apache.tika.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,9 +63,26 @@ public class AlbumsController {
     }
 
     @GetMapping("/{albumId}/cover")
+    @HystrixCommand(fallbackMethod = "buildDefaultCoverBlob")
     public HttpEntity<byte[]> getCover(@PathVariable long albumId) throws IOException, URISyntaxException {
         Optional<Blob> maybeCoverBlob = blobStore.get(getCoverBlobName(albumId));
         Blob coverBlob = maybeCoverBlob.orElseGet(this::buildDefaultCoverBlob);
+
+        byte[] imageBytes = IOUtils.toByteArray(coverBlob.inputStream);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(coverBlob.contentType));
+        headers.setContentLength(imageBytes.length);
+
+        return new HttpEntity<>(imageBytes, headers);
+    }
+
+    public HttpEntity<byte[]> buildDefaultCoverBlob(long albumId) throws IOException, URISyntaxException {
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream input = classLoader.getResourceAsStream("default-cover.jpg");
+
+        Blob coverBlob = new Blob("default-cover", input, MediaType.IMAGE_JPEG_VALUE);
 
         byte[] imageBytes = IOUtils.toByteArray(coverBlob.inputStream);
 
